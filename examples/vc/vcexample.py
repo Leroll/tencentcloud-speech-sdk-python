@@ -12,12 +12,23 @@ from vc import speech_convertor_ws
 from common.log import logger
 from common.utils import is_python3
 
+from dotenv import load_dotenv
+load_dotenv()
+import os
 
-APPID = 0
-SECRET_ID = ''
-SECRET_KEY = ''
+APPID = os.environ.get('APPID', 0)  # 腾讯云应用 ID
+SECRET_ID = os.getenv('SECRET_ID', '')  # 腾讯云密钥 ID
+SECRET_KEY = os.getenv('SECRET_KEY', '')  # 腾讯云密钥 Key
 
-VOICETYPE = 301005 # 音色类型
+VOICETYPE = 301006 # 音色类型
+                # 301005-小新，男童声
+                # 301006-小姐姐，女声
+                # 301007-童声，男童声
+                # 301008-东北话，男声
+                # 301009-影视解说，男声
+                # 301010-萝莉，女声
+                # 301011-小黄人，男童声
+
 CODEC = "pcm" # 音频格式：pcm
 SAMPLE_RATE = 16000 # 音频采样率：16000
 
@@ -157,8 +168,13 @@ def process_multithread(number, input_audio_file):
 
 
 if __name__ == "__main__":
+    """
+    Usage: 
+        cd examples/vc
+        python vcexample.py
+    """
     if not is_python3():
         print("only support python3")
         sys.exit(0)
-    input_audio_file = "test.wav"
+    input_audio_file = "low-pitched-male-24k.16khz.wav"
     process_multithread(1, input_audio_file)
