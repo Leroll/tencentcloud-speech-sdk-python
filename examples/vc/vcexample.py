@@ -11,6 +11,7 @@ from common import credential
 from vc import speech_convertor_ws
 from common.log import logger
 from common.utils import is_python3
+from pathlib import Path
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -171,10 +172,12 @@ if __name__ == "__main__":
     """
     Usage: 
         cd examples/vc
-        python vcexample.py
+        uv run vcexample.py
     """
-    if not is_python3():
-        print("only support python3")
-        sys.exit(0)
-    input_audio_file = "low-pitched-male-24k.16khz.wav"
-    process_multithread(1, input_audio_file)
+    wav_dir = "/root/autodl-tmp/speech-processing/datasets/lex__div42/sr-16khz"
+    
+    # ----------------------
+    wav_files = Path(wav_dir).glob("*.wav")
+    
+    for wav_file in wav_files:
+        process_multithread(1, wav_file.as_posix())
